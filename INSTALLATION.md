@@ -96,3 +96,60 @@ fs.file-max=65536
 ulimit -n 65536
 ulimit -u 4096
 sudo reboot
+
+pipeline:
+pipeline {
+          agent any
+    tools {
+        maven 'Maven'
+    }
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'master', url: 'https://github.com/Msocial123/EcommerceApp.git'
+            }
+        }
+        stage('Check Project Structure') {
+            steps {
+                sh 'ls -la'
+            }
+        }
+        stage('Compile') {
+            steps {
+                dir('EcommerceApp') {
+                    sh 'mvn clean compile'
+                }
+            }
+        } 
+        stage('Test') {
+            steps {
+                dir('EcommerceApp') {
+                    sh 'mvn test'
+                }
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                dir('EcommerceApp') {
+                    withSonarQubeEnv('sonar-token') {
+                        sh 'mvn sonar:sonar'
+                    }
+                }
+            }
+        }
+        stage('Package') {
+            steps {
+                dir('EcommerceApp') {
+                    sh 'mvn package'
+                }
+            }
+        }
+        stage('Deploy to Tomcat') {
+            steps {
+                dir('EcommerceApp') {
+                    sh 'mv /var/lib/jenkins/workspace/Project/EcommerceApp/target/EcommerceApp.war /home/ubuntu/apache-tomcat-9.0.115/webapps/'
+                }
+            }
+        }
+    }
+}
