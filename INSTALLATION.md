@@ -133,9 +133,39 @@ pipeline {
         stage('Deploy to Tomcat') {
             steps {
                 dir('EcommerceApp') {
-                    sh 'mv /var/lib/jenkins/workspace/Project/EcommerceApp/target/EcommerceApp.war /home/ubuntu/apache-tomcat-9.0.115/webapps/'
+                    sh 'mv /var/lib/jenkins/workspace/project/EcommerceApp/target/EcommerceApp.war /home/ubuntu/apache-tomcat-9.0.115/webapps/'
                 }
             }
         }
     }
+	post {
+        success {
+            emailext(
+                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+<h2>Build Successful ✅</h2>
+<p><b>Job Name:</b> ${env.JOB_NAME}</p>
+<p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+<p><b>Build URL:</b> <a href="${env.BUILD_URL}">
+${env.BUILD_URL}</a></p>
+""",
+                to: "manasyadav940@gmail.com"
+            )
+        }
+        failure {
+            emailext(
+                subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+<h2>Build Failed ❌</h2>
+<p><b>Job Name:</b> ${env.JOB_NAME}</p>
+<p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+<p>Check Console Output:</p>
+<p><a href="${env.BUILD_URL}">
+${env.BUILD_URL}</a></p>
+""",
+                to: "manasyadav940@gmail.com"
+            )
+        }
+    }
 }
+
