@@ -1,3 +1,4 @@
+SONARQUBE INSTALLATION:
 sudo apt update
 sudo apt upgrade -y
 sudo apt install -y openjdk-21-jdk
@@ -62,7 +63,7 @@ sudo reboot
 sonar-token
 squ_167a0e15f0696c19b329307e1b78a5949d6fd2db
 
-
+JENKINS INSTALLATION:
 sudo apt update -y
 #sudo apt install openjdk-17-jdk -y
 sudo apt install fontconfig openjdk-21-jre
@@ -76,6 +77,11 @@ echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]" \
 sudo apt update
 sudo apt install jenkins
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+TOMCAT INSTALLATION:
+sudo apt update
+sudo apt install zip
+sudo wget link of tomcat
 sudo chmod 755 /home
 sudo chmod 755 /home/ubuntu
 sudo chown -R jenkins:jenkins /home/ubuntu/apache-tomcat-9.0.115/webapps/
@@ -83,6 +89,24 @@ cd apache-tomcat-9.0.115
 cd bin
 chmod 700 *.sh
 ./startup.sh
+
+AWSCLI INSTALLATION:
+sudo apt update
+sudo apt install -y curl unzip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+DOCKER INSTALLAION:
+
+
+K8s INSTALLATION:
+
+
+ANSIBLE INSTALLATION:
+
+
+TERRAFORM INSTALLATION:
 
 pipeline {
     agent any
