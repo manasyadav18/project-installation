@@ -100,7 +100,37 @@ sudo ./aws/install
 DOCKER INSTALLAION:
 
 
-K8s INSTALLATION:
+K8s INSTALLATION EKS:
+sudo apt update
+sudo apt install -y curl unzip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws configure
+create a IAM user and paste the access key and secret key here
+aws eks --region example_region update-kubeconfig --name cluster_name
+sudo apt update
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+kubectl version --client
+sudo curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | sudo tar xz -C /usr/local/bin
+eksctl version
+kubectl get pods
+
+If you get the error: 
+Go to eks cluster -> compute -> click on node -> click on instance → security -> click on securty group -> edit inbound rule -> delete existing rule and allow all traffic 
+
+vi pod1.yml
+kind: Pod
+apiVersion: v1
+metadata:
+  name: mypod
+spec:
+  containers:
+    - name: c00
+      image: ubuntu
+      command: ["/bin/bash", "-c","while true; do echo hello world; sleep 10; done"]
 
 
 ANSIBLE INSTALLATION:
